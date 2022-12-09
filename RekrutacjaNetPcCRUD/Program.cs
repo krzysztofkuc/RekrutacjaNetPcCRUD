@@ -1,15 +1,34 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using RekrutacjaNetPcCRUD.Interfaces;
 using RekrutacjaNetPcCRUD.Repositories;
+using RekrutacjaNetPcCRUD.Repositories.ContactsDbContext;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connString = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["RekrutacjaNetPcDb"];
+var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings");
+string? connString = config["RekrutacjaNetPcDb"];
 builder.Services.AddControllers();
 builder.Services.AddTransient<IContactsRepository, ContactsRepository>();
-builder.Services.AddDbContext<ContactsDbContext>(options =>options.UseSqlServer("connString"));
+builder.Services.AddDbContext<RekrutacjaNetPcCrudContext>(options =>options.UseSqlServer("connString"));
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = config["Jwt:Issuer"],
+            ValidAudience = config["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]))
+        };
+    });
 
 var app = builder.Build();
 
@@ -23,6 +42,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 app.MapControllerRoute(
