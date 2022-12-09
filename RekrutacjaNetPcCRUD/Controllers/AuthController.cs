@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RekrutacjaNetPcCRUD.Model.Entities;
@@ -16,23 +17,29 @@ namespace RekrutacjaNetPcCRUD.Controllers
     {
         private IConfiguration _config;
         private readonly RekrutacjaNetPcCrudContext _contactsCtx;
+        IMapper _automapper;
 
-        public AuthController(IConfiguration config, RekrutacjaNetPcCrudContext contactsCtx)
+        public AuthController(IConfiguration config, RekrutacjaNetPcCrudContext contactsCtx, IMapper automapper)
         {
             _config = config;
             _contactsCtx = contactsCtx;
+            _automapper = automapper;
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public  IActionResult Login([FromBody] UserVm user)
+        [Route("Login")]
+        public  IActionResult Login([FromBody] UserVm userLogin)
         {
-            var userEntity = Authenticate(user);
+            userLogin.Role = "user";
+            var user = Authenticate(userLogin);
 
             if(user != null)
             {
-                var token = GenerateToken(userEntity);
-                return Ok(token);
+                var userVm = _automapper.Map<UserVm>(user);
+                userVm.Token = GenerateToken(user);
+
+                return Ok(userVm);
             }
 
             return NotFound("User not found");

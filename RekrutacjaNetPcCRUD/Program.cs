@@ -1,7 +1,9 @@
 
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using RekrutacjaNetPcCRUD.Configuration;
 using RekrutacjaNetPcCRUD.Interfaces;
 using RekrutacjaNetPcCRUD.Repositories;
 using RekrutacjaNetPcCRUD.Repositories.ContactsDbContext;
@@ -10,11 +12,11 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings");
-string? connString = config["RekrutacjaNetPcDb"];
+var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+string? connString = config["ConnectionStrings:RekrutacjaNetPcDb"];
 builder.Services.AddControllers();
 builder.Services.AddTransient<IContactsRepository, ContactsRepository>();
-builder.Services.AddDbContext<RekrutacjaNetPcCrudContext>(options =>options.UseSqlServer("connString"));
+builder.Services.AddDbContext<RekrutacjaNetPcCrudContext>(options =>options.UseSqlServer(connString));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -30,6 +32,25 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins(new string[] { "https://localhost:44402" }).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+                      });
+});
+
+// Auto Mapper Configurations
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new AutoMappingProfile());
+});
+
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,6 +65,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseCors(MyAllowSpecificOrigins);
 
 
 app.MapControllerRoute(

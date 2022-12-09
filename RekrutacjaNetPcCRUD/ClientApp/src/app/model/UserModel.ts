@@ -4,4 +4,5 @@ export interface UserModel
     Email: string;
     Password: string;
     Role: string;
+    Token: string;
 }
