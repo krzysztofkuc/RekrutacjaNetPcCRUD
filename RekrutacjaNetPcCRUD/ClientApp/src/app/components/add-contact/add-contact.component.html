@@ -1,0 +1,55 @@
+<p-card header="Dodaj kontakt" styleClass="p-card-shadow">
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="p-fluid">
+      <div class="field">
+        <label for="nameId" class="block">Imię</label>
+        <input type="text" id="nameId" pInputText placeholder="name *" formControlName="name" aria-describedby="nameIdError" [(ngModel)]="contact.Name">
+        <small *ngIf="formCtrls.name.touched && formCtrls.name.errors" id="nameIdError" class="p-error block">Popraw</small>
+      </div>
+      <div class="field">
+        <label for="surnameId">Surname</label>
+        <input id="surnameId" type="text" pInputText placeholder="surname *" formControlName="surname" aria-describedby="surnameIdError" >
+        <small id="surnameIdError" class="p-error block" *ngIf="formCtrls.surname.touched && formCtrls.surname.errors">Popraw</small>
+      </div>
+
+      <div class="field">
+        <label for="passwordId">Hasło</label>
+        <input id="passwordId" type="text" pInputText placeholder="hasło *" formControlName="password" aria-describedby="passwordIdError">
+        <small id="passwordIdError" class="p-error block" *ngIf="formCtrls.password.touched && formCtrls.password.errors">Popraw</small>
+      </div>
+
+      <div class="field">
+        <label for="emailId">Email</label>
+        <input id="emailId" type="text" pInputText placeholder="email *" formControlName="email" aria-describedby="emailIdError">
+        <small id="emailIdError" class="p-error block" *ngIf="formCtrls.email.touched && formCtrls.email.errors">Popraw</small>
+      </div>
+
+      <div class="field">
+
+        <p-dropdown [options]="contact.Categories" [(ngModel)]="selectedCategory" optionLabel="Name" optionDisabled="inactive"></p-dropdown>
+
+        <label for="categoryId">Kategoria</label>
+        <input id="categoryId" type="text" pInputText placeholder="kategoria *" formControlName="category" aria-describedby="categoryIdError">
+        <small id="categoryIdError" class="p-error block" *ngIf="formCtrls.category.touched && formCtrls.category.errors">Popraw</small>
+      </div>
+
+      <div class="field">
+        <label for="phoneNoId">Numer telefonu</label>
+        <input id="phoneNoId" type="text" pInputText placeholder="nr tel *" formControlName="phoneNo" aria-describedby="phoneNoIdError">
+        <small id="phoneNoIdError" class="p-error block" *ngIf="formCtrls.phoneNo.touched && formCtrls.phoneNo.errors">Popraw</small>
+      </div>
+
+      <div class="field">
+        <label for="dateOfBirthId">Data urodzenia</label>
+        <input id="dateOfBirthId" type="text" pInputText placeholder="data urodzenia *" formControlName="dateOfBirth" aria-describedby="dateOfBirthIdError">
+        <small id="dateOfBirthIdError" class="p-error block" *ngIf="formCtrls.dateOfBirth.touched && formCtrls.dateOfBirth.errors">Popraw</small>
+      </div>
+
+    </div>
+
+    <p-button type="submit" label="Zapisz" icon="pi pi-check" iconPos="left" [disabled]="!form.valid"></p-button>
+  </form>
+
+</p-card>

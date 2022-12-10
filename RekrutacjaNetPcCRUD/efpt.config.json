@@ -12,8 +12,12 @@
    "ProjectRootNamespace": "RekrutacjaNetPcCRUD",
    "Schemas": null,
    "SelectedHandlebarsLanguage": 0,
-   "SelectedToBeGenerated": 2,
+   "SelectedToBeGenerated": 0,
    "Tables": [
+      {
+         "Name": "[dbo].[ContactCategory]",
+         "ObjectType": 0
+      },
       {
          "Name": "[dbo].[Contacts]",
          "ObjectType": 0

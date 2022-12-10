@@ -6,6 +6,7 @@ using RekrutacjaNetPcCRUD.Model.Entities;
 using RekrutacjaNetPcCRUD.Model.ViewModel;
 using RekrutacjaNetPcCRUD.Repositories.ContactsDbContext;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -42,7 +43,7 @@ namespace RekrutacjaNetPcCRUD.Controllers
                 return Ok(userVm);
             }
 
-            return NotFound("User not found");
+            return Unauthorized();
         }
 
         private string GenerateToken(Users user)

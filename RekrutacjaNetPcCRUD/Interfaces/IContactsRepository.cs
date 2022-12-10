@@ -1,4 +1,5 @@
-﻿using RekrutacjaNetPcCRUD.Model.ViewModel;
+﻿using RekrutacjaNetPcCRUD.Model.Entities;
+using RekrutacjaNetPcCRUD.Model.ViewModel;
 
 namespace RekrutacjaNetPcCRUD.Interfaces
 {
@@ -6,8 +7,10 @@ namespace RekrutacjaNetPcCRUD.Interfaces
     {
         Task<IEnumerable<ContactVm>> GetAllContactsAsync();
         Task<ContactVm> GetContactDetailsAsync();
-        Task<bool> AddContactAsync();
+        Task<ContactVm> AddContactAsync(ContactVm contact);
         Task<bool> UpdateContactAsync();
         Task<bool> DeleteContactAsync();
+        Task<IEnumerable<ContactCategoryVm>> GetAllContactCategories();
+        
     }
 }

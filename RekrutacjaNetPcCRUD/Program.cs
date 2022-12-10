@@ -7,14 +7,22 @@ using RekrutacjaNetPcCRUD.Configuration;
 using RekrutacjaNetPcCRUD.Interfaces;
 using RekrutacjaNetPcCRUD.Repositories;
 using RekrutacjaNetPcCRUD.Repositories.ContactsDbContext;
+using System.Security.Cryptography.Xml;
 using System.Text;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 string? connString = config["ConnectionStrings:RekrutacjaNetPcDb"];
-builder.Services.AddControllers();
+
+//disable camel case
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+});
+
 builder.Services.AddTransient<IContactsRepository, ContactsRepository>();
 builder.Services.AddDbContext<RekrutacjaNetPcCrudContext>(options =>options.UseSqlServer(connString));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -50,6 +58,8 @@ var mapperConfig = new MapperConfiguration(mc =>
 
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
+
+//big character when serializing proerties
 
 var app = builder.Build();
 

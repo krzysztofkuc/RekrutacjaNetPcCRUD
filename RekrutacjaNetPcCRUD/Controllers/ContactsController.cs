@@ -13,14 +13,12 @@ namespace RekrutacjaNetPcCRUD.Controllers
     {
         private readonly ILogger<ContactsController> _logger;
         private readonly IContactsRepository _repo;
-        private readonly RekrutacjaNetPcCrudContext _contactsCtx;
 
 
-        public ContactsController(ILogger<ContactsController> logger, IContactsRepository repo, RekrutacjaNetPcCrudContext contactsCtx)
+        public ContactsController(ILogger<ContactsController> logger, IContactsRepository repo)
         {
             _logger = logger;
             _repo = repo;
-            _contactsCtx = contactsCtx;
         }
 
         [HttpGet]
@@ -28,6 +26,25 @@ namespace RekrutacjaNetPcCRUD.Controllers
         public async Task<IEnumerable<ContactVm>> GetAllContacts()
         {
             return await _repo.GetAllContactsAsync();
+        }
+
+        [HttpPost]
+        [Route("AddContact")]
+        public async Task<AddContactVm> AddContact()
+        {
+            var addVm = new AddContactVm()
+            {
+                Categories = await _repo.GetAllContactCategories()
+            };
+
+            return addVm;
+        }
+
+        [HttpGet]
+        [Route("GetAllContactCategories")]
+        public async Task<IEnumerable<ContactCategoryVm>> GetAllContactCategories()
+        {
+            return await _repo.GetAllContactCategories();
         }
     }
 }

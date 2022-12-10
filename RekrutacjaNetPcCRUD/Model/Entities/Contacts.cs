@@ -13,5 +13,9 @@ namespace RekrutacjaNetPcCRUD.Model.Entities
         public string Email { get; set; }
         public string PhoneNo { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public string Password { get; set; }
+        public int CatgoryId { get; set; }
+
+        public virtual ContactCategory Catgory { get; set; }
     }
 }

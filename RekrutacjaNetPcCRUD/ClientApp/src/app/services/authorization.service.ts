@@ -15,6 +15,10 @@ export class AuthorizationService {
     return this._http.authorize<UserModel>(user);
   }
 
+  getAuthToken(): string {
+    return localStorage.getItem("ContactsToken")?.toString() ?? "";
+  }
+
 }
 
 

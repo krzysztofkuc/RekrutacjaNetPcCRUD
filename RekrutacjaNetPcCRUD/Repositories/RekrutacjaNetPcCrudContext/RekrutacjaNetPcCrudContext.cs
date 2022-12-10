@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using RekrutacjaNetPcCRUD.Model.Entities;
 
-namespace RekrutacjaNetPcCRUD.Repositories.ContactsDbContext
+namespace RekrutacjaNetPcCRUD.Repositories.RekrutacjaNetPcCrudContext
 {
     public partial class RekrutacjaNetPcCrudContext : DbContext
     {

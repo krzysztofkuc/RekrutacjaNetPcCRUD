@@ -1,0 +1,25 @@
+<p-button (onClick)="navigateToAdd()"> Dodaj</p-button>
+<p-table [value]="contacts" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Imię</th>
+      <th>Nazwisko</th>
+      <th>Email</th>
+      <th>hasło</th>
+      <th>kategoria</th>
+      <th>telefon</th>
+      <th>data urodzenia</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-contact>
+    <tr>
+      <td>{{contact.Name}}</td>
+      <td>{{contact.Surname}}</td>
+      <td>{{contact.Email}}</td>
+      <td>{{contact.Password}}</td>
+      <td>{{contact.Category}}</td>
+      <td>{{contact.PhoneNo}}</td>
+      <td>{{contact.DateOfBirth}}</td>
+    </tr>
+  </ng-template>
+</p-table>

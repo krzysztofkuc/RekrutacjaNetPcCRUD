@@ -3,6 +3,7 @@ import { UserModel } from '../../model/UserModel';
 
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../../services/authorization.service';
+import { MessageService } from 'primeng/api';
 //import { UserLogin } from 'src/app/model/userLogin';
 //import { AuthService } from 'src/app/services/auth.service';
 /*import { ToastrService, Toast } from 'ngx-toastr';*/
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
   loginModel: UserModel;
   form: FormGroup;
 
-  constructor(private authSvc: AuthorizationService, private fb: FormBuilder) { }
+  constructor(private authSvc: AuthorizationService, private fb: FormBuilder, private toastSvc: MessageService) { }
 
   ngOnInit(): void {
 
@@ -40,8 +41,15 @@ export class LoginComponent implements OnInit {
     }
 
     this.authSvc.login(user).subscribe(res => {
-      localStorage.setItem('token', res.Token);
-    });
+      localStorage.setItem('ContactsToken', res.Token);
+      console.log("Zalogowano ", res.Email);
+      this.toastSvc.add({ severity: 'success', summary: 'Success', detail: 'Zalogowano' });
+    },
+      (error) => {
+        console.log("Niedana próba logowania", error);
+        this.toastSvc.add({ severity: 'error', summary: 'Error', detail: 'Nie udało się zalogować' });
+    }
+    );
   }
 
 }
