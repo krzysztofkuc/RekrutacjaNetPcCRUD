@@ -2,9 +2,12 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 import { AddContactModel } from '../../model/AddContactModel';
+import { ContactCategoryModel } from '../../model/contactCategoryModel';
 import { ContactModel } from '../../model/ContactModel';
 import { ContactListService } from '../../services/contact-list.service';
+import { AddSubcategoryPopupComponent } from '../add-subcategory-popup/add-subcategory-popup.component';
 
 @Component({
   selector: 'app-add-contact',
@@ -15,13 +18,14 @@ export class AddContactComponent implements OnInit {
 
   form: FormGroup;
   contact: AddContactModel;
-  selectedCategory: string;
+  selectedCategory: ContactCategoryModel;
   public contactAdded = new EventEmitter<ContactModel>();
 
   constructor(private contactsSvc: ContactListService,
               private toastSvc: MessageService,
               private router: Router,
-              private fb: FormBuilder  ) { }
+              public dialogService: DialogService,
+              private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.contact = {
@@ -54,24 +58,26 @@ export class AddContactComponent implements OnInit {
     });
   }
 
-  submit() {
-    //contact = {};
+  categoryChanged(selectedCategory: ContactCategoryModel) {
+    if (selectedCategory.Name == "inny") {
+      this.showDialogAddSubcategory();
+    }
+  }
 
-    //this.contactsSvc.addContact(contact).subscribe(res => {
-    //  this.contactAdded.emit(res);
-    //  this.toastSvc.add({ severity: 'success', summary: 'Success', detail: 'Dodano kontakt' });
-    //  this.router.navigate(['/contactList']);
-    //},
-    //  (error) => {
-    //    this.toastSvc.add({ severity: 'error', summary: 'Error', detail: 'Nie udao się dodać kontaktu' });
-    //  }
-    //);
+  showDialogAddSubcategory() {
+    const ref = this.dialogService.open(AddSubcategoryPopupComponent, {
+      data: {
+        parentCategory: this.selectedCategory
+      },
+      header: 'Dodaj podkategorię',
+      width: '70%'
+    });
+  }
+
+  submit() {
   }
 
   get formCtrls() {
     return this.form.controls;
   }
-
-
-
 }

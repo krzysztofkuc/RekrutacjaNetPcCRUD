@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RekrutacjaNetPcCRUD.Interfaces;
+using RekrutacjaNetPcCRUD.Model.Entities;
 using RekrutacjaNetPcCRUD.Model.ViewModel;
 using RekrutacjaNetPcCRUD.Repositories;
 using RekrutacjaNetPcCRUD.Repositories.ContactsDbContext;
@@ -45,6 +46,13 @@ namespace RekrutacjaNetPcCRUD.Controllers
         public async Task<IEnumerable<ContactCategoryVm>> GetAllContactCategories()
         {
             return await _repo.GetAllContactCategories();
+        }
+
+        [HttpPost]
+        [Route("AddSubcategory")]
+        public async Task<ContactSubcategoryVm> AddSubcategory([FromBody] ContactSubcategoryVm subcategory)
+        {
+            return await _repo.Addsubcategory(subcategory);
         }
     }
 }

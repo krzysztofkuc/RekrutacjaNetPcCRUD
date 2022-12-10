@@ -47,7 +47,19 @@ namespace RekrutacjaNetPcCRUD.Repositories
 
         public async Task<IEnumerable<ContactCategoryVm>> GetAllContactCategories()
         {
-            return _mapper.Map<IEnumerable<ContactCategoryVm>>(_contactsCtx.ContactCategory);
+            IEnumerable<ContactCategoryVm>  allCategoriesVm = _mapper.Map<IEnumerable<ContactCategoryVm>>(_contactsCtx.ContactCategory);
+
+            return Task.FromResult(allCategoriesVm).Result;
+        }
+
+        public async Task<ContactSubcategoryVm> Addsubcategory(ContactSubcategoryVm subcategoryVm)
+        {
+            var subcategory = _mapper.Map<ContactSubcategory>(subcategoryVm);
+            subcategory.Category = null;
+            var subcategoryCtx = await _contactsCtx.ContactSubcategory.AddAsync(subcategory);
+            await _contactsCtx.SaveChangesAsync();
+
+            return _mapper.Map<ContactSubcategoryVm>(subcategoryCtx.Entity);
         }
     }
 }

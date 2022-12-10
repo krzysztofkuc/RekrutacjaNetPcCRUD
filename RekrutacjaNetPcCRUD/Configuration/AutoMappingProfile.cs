@@ -20,6 +20,9 @@ namespace RekrutacjaNetPcCRUD.Configuration
             CreateMap<ContactVm, AddContactVm>()
                 .ForMember(x => x.Categories, opt => opt.Ignore());
             CreateMap<AddContactVm, ContactVm>();
+
+            CreateMap<ContactSubcategoryVm, ContactSubcategory>();
+            CreateMap<ContactSubcategory, ContactSubcategoryVm>();
         }
     }
 }

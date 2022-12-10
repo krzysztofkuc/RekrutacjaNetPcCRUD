@@ -1,0 +1,14 @@
+<p-card styleClass="p-card-shadow">
+
+  <form [formGroup]="form" (ngSubmit)="submit(category)">
+    <div class="p-fluid">
+      <div class="field">
+        <label for="nameId" class="block">Nazwa podkategorii</label>
+        <input type="text" id="nameId" pInputText placeholder="name *" formControlName="name" aria-describedby="nameIdError" [(ngModel)]="category.Name">
+        <small *ngIf="formCtrls.name.touched && formCtrls.name.errors" id="nameIdError" class="p-error block">Popraw</small>
+      </div>
+    </div>
+
+    <p-button type="submit" label="Zapisz" icon="pi pi-check" iconPos="left" [disabled]="!form.valid"></p-button>
+  </form>
+</p-card>

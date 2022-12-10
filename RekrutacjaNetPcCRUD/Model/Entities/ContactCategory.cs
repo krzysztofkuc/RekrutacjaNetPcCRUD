@@ -9,12 +9,14 @@ namespace RekrutacjaNetPcCRUD.Model.Entities
     {
         public ContactCategory()
         {
+            ContactSubcategory = new HashSet<ContactSubcategory>();
             Contacts = new HashSet<Contacts>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
 
+        public virtual ICollection<ContactSubcategory> ContactSubcategory { get; set; }
         public virtual ICollection<Contacts> Contacts { get; set; }
     }
 }

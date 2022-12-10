@@ -20,6 +20,7 @@ namespace RekrutacjaNetPcCRUD.Repositories.ContactsDbContext
         }
 
         public virtual DbSet<ContactCategory> ContactCategory { get; set; }
+        public virtual DbSet<ContactSubcategory> ContactSubcategory { get; set; }
         public virtual DbSet<Contacts> Contacts { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
@@ -31,6 +32,20 @@ namespace RekrutacjaNetPcCRUD.Repositories.ContactsDbContext
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<ContactSubcategory>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.ContactSubcategory)
+                    .HasForeignKey(d => d.CategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ContactSubcategory_ContactCategory");
             });
 
             modelBuilder.Entity<Contacts>(entity =>

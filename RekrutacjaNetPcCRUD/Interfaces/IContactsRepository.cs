@@ -1,5 +1,4 @@
-﻿using RekrutacjaNetPcCRUD.Model.Entities;
-using RekrutacjaNetPcCRUD.Model.ViewModel;
+﻿using RekrutacjaNetPcCRUD.Model.ViewModel;
 
 namespace RekrutacjaNetPcCRUD.Interfaces
 {
@@ -11,6 +10,6 @@ namespace RekrutacjaNetPcCRUD.Interfaces
         Task<bool> UpdateContactAsync();
         Task<bool> DeleteContactAsync();
         Task<IEnumerable<ContactCategoryVm>> GetAllContactCategories();
-        
+        Task<ContactSubcategoryVm> Addsubcategory(ContactSubcategoryVm subcategory);
     }
 }

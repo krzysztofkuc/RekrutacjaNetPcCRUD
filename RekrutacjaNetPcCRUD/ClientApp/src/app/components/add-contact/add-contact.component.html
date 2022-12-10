@@ -28,10 +28,8 @@
 
       <div class="field">
 
-        <p-dropdown [options]="contact.Categories" [(ngModel)]="selectedCategory" optionLabel="Name" optionDisabled="inactive"></p-dropdown>
-
         <label for="categoryId">Kategoria</label>
-        <input id="categoryId" type="text" pInputText placeholder="kategoria *" formControlName="category" aria-describedby="categoryIdError">
+        <p-dropdown [options]="contact.Categories" [(ngModel)]="selectedCategory" optionLabel="Name" formControlName="category" (onChange)="categoryChanged(selectedCategory)" optionDisabled="inactive" id="categoryId"></p-dropdown>
         <small id="categoryIdError" class="p-error block" *ngIf="formCtrls.category.touched && formCtrls.category.errors">Popraw</small>
       </div>
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ContactCategoryModel } from '../model/contactCategoryModel';
 import { ContactModel } from '../model/ContactModel';
+import { ContactSubategoryModel } from '../model/contactSubcategoryModel';
 import { HttpRequestsService } from './http-request.service';
 
 @Injectable({
@@ -24,6 +25,11 @@ export class ContactListService {
   getAllContactRepos(): Observable<ContactCategoryModel[]> {
 
     return this._http.get("Contacts/GetAllContactCategories");
+  }
+
+  addSubcategory(subcategory: ContactSubategoryModel): Observable<ContactSubategoryModel> {
+
+    return this._http.post<ContactSubategoryModel>("Contacts/AddSubcategory", subcategory);
   }
 
 }

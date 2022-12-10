@@ -3,26 +3,32 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 //primeNg
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
-import { TableModule} from 'primeng/table';
+import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { DynamicDialogModule, DialogService } from 'primeng/dynamicdialog';
+import { MessageService } from 'primeng/api';
 
+//own components
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './components/login/login.component';
-import { AuthorizationService } from './services/authorization.service';
-import { HttpRequestsService } from './services/http-request.service';
-import { MessageService } from 'primeng/api';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContactListComponent } from './components/contact-list/contact-list.component';
 import { AddContactComponent } from './components/add-contact/add-contact.component';
-import { InputTextModule } from 'primeng/inputtext';
-import { DropdownModule } from 'primeng/dropdown';
+import { AddSubcategoryPopupComponent } from './components/add-subcategory-popup/add-subcategory-popup.component';
+
+//own services
+import { AuthorizationService } from './services/authorization.service';
+import { HttpRequestsService } from './services/http-request.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +39,8 @@ import { DropdownModule } from 'primeng/dropdown';
     FetchDataComponent,
     LoginComponent,
     ContactListComponent,
-    AddContactComponent
+    AddContactComponent,
+    AddSubcategoryPopupComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -43,7 +50,7 @@ import { DropdownModule } from 'primeng/dropdown';
     BrowserAnimationsModule,
     InputTextModule,
     DropdownModule,
-
+    DynamicDialogModule,
 
     //primeng
     CardModule,
@@ -60,7 +67,7 @@ import { DropdownModule } from 'primeng/dropdown';
       { path: 'addContact', component: AddContactComponent }
     ])
   ],
-  providers: [HttpRequestsService, AuthorizationService, MessageService],
+  providers: [HttpRequestsService, AuthorizationService, MessageService, DialogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
