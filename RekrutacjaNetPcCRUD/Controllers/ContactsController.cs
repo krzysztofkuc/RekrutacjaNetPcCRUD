@@ -8,7 +8,7 @@ namespace RekrutacjaNetPcCRUD.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ContactsController : ControllerBase
     {
         private readonly ILogger<ContactsController> _logger;
@@ -33,7 +33,6 @@ namespace RekrutacjaNetPcCRUD.Controllers
         [Route("AddContact")]
         public async Task<ContactVm> AddContactAsync(AddContactVm contactAdd)
         {
-
             return await _repo.AddContactAsync(contactAdd);
         }
 

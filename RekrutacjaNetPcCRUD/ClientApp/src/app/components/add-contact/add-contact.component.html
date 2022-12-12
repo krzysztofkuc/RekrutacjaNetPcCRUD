@@ -41,7 +41,8 @@
 
       <div class="field">
         <label for="dateOfBirthId">Data urodzenia</label>
-        <input id="dateOfBirthId" type="text" pInputText placeholder="data urodzenia *" formControlName="dateOfBirth" aria-describedby="dateOfBirthIdError" [(ngModel)]="contact.DateOfBirth">
+        <p-calendar [(ngModel)]="contact.DateOfBirth" formControlName="dateOfBirth" id="dateOfBirthId"></p-calendar>
+        <!--<input id="dateOfBirthId" type="text" pInputText placeholder="data urodzenia *" formControlName="dateOfBirth" aria-describedby="dateOfBirthIdError" [(ngModel)]="contact.DateOfBirth">-->
         <small id="dateOfBirthIdError" class="p-error block" *ngIf="formCtrls.dateOfBirth.touched && formCtrls.dateOfBirth.errors">Popraw</small>
       </div>
 

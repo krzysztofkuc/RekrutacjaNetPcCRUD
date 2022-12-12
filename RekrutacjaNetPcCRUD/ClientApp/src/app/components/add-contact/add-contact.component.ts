@@ -78,7 +78,9 @@ export class AddContactComponent implements OnInit {
   }
 
   submit() {
-    this.contactsSvc.addContact(this.contact).subscribe();
+    this.contactsSvc.addContact(this.contact).subscribe(res => {
+      this.router.navigate(['/contactList']);
+    });
   }
 
   get formCtrls() {

@@ -4,6 +4,7 @@ import { UserModel } from '../../model/UserModel';
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../../services/authorization.service';
 import { MessageService } from 'primeng/api';
+import { NgLocaleLocalization } from '@angular/common';
 //import { UserLogin } from 'src/app/model/userLogin';
 //import { AuthService } from 'src/app/services/auth.service';
 /*import { ToastrService, Toast } from 'ngx-toastr';*/
@@ -50,6 +51,11 @@ export class LoginComponent implements OnInit {
         this.toastSvc.add({ severity: 'error', summary: 'Error', detail: 'Nie udało się zalogować' });
     }
     );
+  }
+
+  logout() {
+    localStorage.removeItem("ContactsToken");
+    this.toastSvc.add({ severity: 'warn', summary: 'Warning', detail: 'Wylogowano' });
   }
 
 }

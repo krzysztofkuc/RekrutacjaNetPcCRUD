@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -14,6 +14,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { DynamicDialogModule, DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
+import { CalendarModule } from 'primeng/calendar';
 
 //own components
 import { AppComponent } from './app.component';
@@ -29,6 +30,7 @@ import { AddSubcategoryPopupComponent } from './components/add-subcategory-popup
 //own services
 import { AuthorizationService } from './services/authorization.service';
 import { HttpRequestsService } from './services/http-request.service';
+import { TokenInterceptorService } from './services/token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import { HttpRequestsService } from './services/http-request.service';
     InputTextModule,
     DropdownModule,
     DynamicDialogModule,
+    CalendarModule,
 
     //primeng
     CardModule,
@@ -67,7 +70,12 @@ import { HttpRequestsService } from './services/http-request.service';
       { path: 'addContact', component: AddContactComponent }
     ])
   ],
-  providers: [HttpRequestsService, AuthorizationService, MessageService, DialogService, DynamicDialogConfig],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorService,
+    multi: true
+  },
+    HttpRequestsService, AuthorizationService, MessageService, DialogService, DynamicDialogConfig],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
