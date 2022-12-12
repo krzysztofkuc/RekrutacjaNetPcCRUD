@@ -6,7 +6,8 @@ export interface ContactModel {
   Surname: string
   Email: string
   Password: string
-  Category: string
+  CategoryId: number
+  Category: ContactCategoryModel
   PhoneNo: string
   DateOfBirth: Date
 }

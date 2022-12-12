@@ -12,7 +12,7 @@ import { ToastModule } from 'primeng/toast';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
-import { DynamicDialogModule, DialogService } from 'primeng/dynamicdialog';
+import { DynamicDialogModule, DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 
 //own components
@@ -40,7 +40,7 @@ import { HttpRequestsService } from './services/http-request.service';
     LoginComponent,
     ContactListComponent,
     AddContactComponent,
-    AddSubcategoryPopupComponent
+    AddSubcategoryPopupComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -67,7 +67,7 @@ import { HttpRequestsService } from './services/http-request.service';
       { path: 'addContact', component: AddContactComponent }
     ])
   ],
-  providers: [HttpRequestsService, AuthorizationService, MessageService, DialogService],
+  providers: [HttpRequestsService, AuthorizationService, MessageService, DialogService, DynamicDialogConfig],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

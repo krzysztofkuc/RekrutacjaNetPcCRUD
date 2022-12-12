@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using RekrutacjaNetPcCRUD.Interfaces;
-using RekrutacjaNetPcCRUD.Model.Entities;
 using RekrutacjaNetPcCRUD.Model.ViewModel;
-using RekrutacjaNetPcCRUD.Repositories;
-using RekrutacjaNetPcCRUD.Repositories.ContactsDbContext;
 
 namespace RekrutacjaNetPcCRUD.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class ContactsController : ControllerBase
     {
         private readonly ILogger<ContactsController> _logger;
@@ -22,23 +21,20 @@ namespace RekrutacjaNetPcCRUD.Controllers
             _repo = repo;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetAllContacts")]
-        public async Task<IEnumerable<ContactVm>> GetAllContacts()
+        public IEnumerable<ContactVm> GetAllContacts()
         {
-            return await _repo.GetAllContactsAsync();
+            return _repo.GetAllContacts();
         }
 
         [HttpPost]
         [Route("AddContact")]
-        public async Task<AddContactVm> AddContact()
+        public async Task<ContactVm> AddContactAsync(AddContactVm contactAdd)
         {
-            var addVm = new AddContactVm()
-            {
-                Categories = await _repo.GetAllContactCategories()
-            };
 
-            return addVm;
+            return await _repo.AddContactAsync(contactAdd);
         }
 
         [HttpGet]

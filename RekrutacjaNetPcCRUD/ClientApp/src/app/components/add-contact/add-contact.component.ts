@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { DialogService } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { AddContactModel } from '../../model/AddContactModel';
 import { ContactCategoryModel } from '../../model/contactCategoryModel';
 import { ContactModel } from '../../model/ContactModel';
@@ -18,13 +18,13 @@ export class AddContactComponent implements OnInit {
 
   form: FormGroup;
   contact: AddContactModel;
-  selectedCategory: ContactCategoryModel;
   public contactAdded = new EventEmitter<ContactModel>();
 
   constructor(private contactsSvc: ContactListService,
               private toastSvc: MessageService,
               private router: Router,
               public dialogService: DialogService,
+              private config: DynamicDialogConfig,
               private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -33,8 +33,9 @@ export class AddContactComponent implements OnInit {
       Name: '',
       Surname:'' ,
       Email: '',
-      Password:'' ,
-      Category: '',
+      Password: '',
+      CategoryId: 0,
+      Category: { Id: 0, Contacts: [], Name: '' },
       PhoneNo: '',
       DateOfBirth: new Date(),
       Categories : []
@@ -58,8 +59,10 @@ export class AddContactComponent implements OnInit {
     });
   }
 
-  categoryChanged(selectedCategory: ContactCategoryModel) {
-    if (selectedCategory.Name == "inny") {
+  categoryChanged() {
+
+    this.contact.CategoryId = this.contact.Category.Id;
+    if (this.contact.Category.Name == "inny") {
       this.showDialogAddSubcategory();
     }
   }
@@ -67,7 +70,7 @@ export class AddContactComponent implements OnInit {
   showDialogAddSubcategory() {
     const ref = this.dialogService.open(AddSubcategoryPopupComponent, {
       data: {
-        parentCategory: this.selectedCategory
+        parentCategory: this.contact.Category
       },
       header: 'Dodaj podkategorię',
       width: '70%'
@@ -75,6 +78,7 @@ export class AddContactComponent implements OnInit {
   }
 
   submit() {
+    this.contactsSvc.addContact(this.contact).subscribe();
   }
 
   get formCtrls() {

@@ -4,9 +4,9 @@ namespace RekrutacjaNetPcCRUD.Interfaces
 {
     public interface IContactsRepository
     {
-        Task<IEnumerable<ContactVm>> GetAllContactsAsync();
+        IEnumerable<ContactVm> GetAllContacts();
         Task<ContactVm> GetContactDetailsAsync();
-        Task<ContactVm> AddContactAsync(ContactVm contact);
+        Task<ContactVm> AddContactAsync(AddContactVm addContact);
         Task<bool> UpdateContactAsync();
         Task<bool> DeleteContactAsync();
         Task<IEnumerable<ContactCategoryVm>> GetAllContactCategories();

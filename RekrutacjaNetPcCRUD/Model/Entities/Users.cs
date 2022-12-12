@@ -2,14 +2,27 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace RekrutacjaNetPcCRUD.Model.Entities
 {
     public partial class Users
     {
+        [Key]
         public int Id { get; set; }
+        [Required]
+        [StringLength(250)]
+        [Unicode(false)]
         public string Email { get; set; }
+        [Required]
+        [StringLength(250)]
+        [Unicode(false)]
         public string Password { get; set; }
+        [Required]
+        [StringLength(50)]
+        [Unicode(false)]
         public string Role { get; set; }
     }
 }

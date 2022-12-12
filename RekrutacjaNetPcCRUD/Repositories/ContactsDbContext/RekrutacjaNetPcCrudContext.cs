@@ -12,6 +12,7 @@ namespace RekrutacjaNetPcCRUD.Repositories.ContactsDbContext
     {
         public RekrutacjaNetPcCrudContext()
         {
+            this.ChangeTracker.LazyLoadingEnabled = false;
         }
 
         public RekrutacjaNetPcCrudContext(DbContextOptions<RekrutacjaNetPcCrudContext> options)
@@ -26,21 +27,8 @@ namespace RekrutacjaNetPcCRUD.Repositories.ContactsDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ContactCategory>(entity =>
-            {
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
-
             modelBuilder.Entity<ContactSubcategory>(entity =>
             {
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.ContactSubcategory)
                     .HasForeignKey(d => d.CategoryId)
@@ -50,56 +38,11 @@ namespace RekrutacjaNetPcCRUD.Repositories.ContactsDbContext
 
             modelBuilder.Entity<Contacts>(entity =>
             {
-                entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
-
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(250)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(250)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PhoneNo)
-                    .IsRequired()
-                    .HasMaxLength(250)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Surname)
-                    .IsRequired()
-                    .HasMaxLength(250)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.Catgory)
+                entity.HasOne(d => d.Category)
                     .WithMany(p => p.Contacts)
-                    .HasForeignKey(d => d.CatgoryId)
+                    .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Contacts_Contacts");
-            });
-
-            modelBuilder.Entity<Users>(entity =>
-            {
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(250)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(250)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Role)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);

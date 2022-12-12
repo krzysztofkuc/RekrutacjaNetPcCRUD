@@ -25,18 +25,6 @@ export class AddSubcategoryPopupComponent implements OnInit {
     this.parentCategory = this.dialogConfig.data.parentCategory as ContactCategoryModel;
 
     //init interface
-    let contact = {
-      Id: 0,
-      Name: '',
-      Surname: '',
-      Email: '',
-      Password: '',
-      Category: '',
-      PhoneNo: '',
-      DateOfBirth: new Date()
-    }
-
-    //init interface
     this.category = { Id: 0, Name: '', CategoryId: this.parentCategory.Id, Category: this.parentCategory}
 
     this.form = this.fb.group({

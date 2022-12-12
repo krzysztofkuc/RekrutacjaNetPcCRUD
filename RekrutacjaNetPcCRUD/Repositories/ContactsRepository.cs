@@ -2,6 +2,7 @@
 using RekrutacjaNetPcCRUD.Interfaces;
 using RekrutacjaNetPcCRUD.Model.Entities;
 using RekrutacjaNetPcCRUD.Model.ViewModel;
+using System.Data.Entity;
 
 namespace RekrutacjaNetPcCRUD.Repositories
 {
@@ -16,18 +17,24 @@ namespace RekrutacjaNetPcCRUD.Repositories
             _mapper = automapper;
         }
 
-        public async Task<IEnumerable<ContactVm>> GetAllContactsAsync()
+        public IEnumerable<ContactVm> GetAllContacts()
         {
-            return Task.FromResult(_mapper.Map<ICollection<ContactVm>>(_contactsCtx.Contacts)).Result;
+            var cots = _contactsCtx.Contacts.Include(x => x.Category).ToList();
+            //_contactsCtx.Entry(cots).Reference(x => x.cate).Load();
+
+            var xx = _mapper.Map<IEnumerable<ContactVm>>(cots);
+            return xx;
         }
 
-        public async Task<ContactVm> AddContactAsync(ContactVm contactForm)
+        public async Task<ContactVm> AddContactAsync(AddContactVm addContact)
         {
-            var contact = _mapper.Map<Contacts>(contactForm);
+            var contact = _mapper.Map<Contacts>(addContact);
+            contact.Category = null;
             var contactEntity = await _contactsCtx.AddAsync(contact);
+            _contactsCtx.Entry(contact).State = Microsoft.EntityFrameworkCore.EntityState.Added;
             await _contactsCtx.SaveChangesAsync();
 
-            return _mapper.Map<ContactVm>(contactEntity);
+            return _mapper.Map<ContactVm>(contactEntity.Entity);
         }
 
         public async Task<bool> DeleteContactAsync()

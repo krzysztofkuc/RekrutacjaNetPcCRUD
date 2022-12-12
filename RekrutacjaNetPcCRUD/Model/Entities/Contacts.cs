@@ -2,20 +2,42 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace RekrutacjaNetPcCRUD.Model.Entities
 {
     public partial class Contacts
     {
+        [Key]
         public int Id { get; set; }
+        [Required]
+        [StringLength(250)]
+        [Unicode(false)]
         public string Name { get; set; }
+        [Required]
+        [StringLength(250)]
+        [Unicode(false)]
         public string Surname { get; set; }
+        [Required]
+        [StringLength(250)]
+        [Unicode(false)]
         public string Email { get; set; }
+        [Required]
+        [StringLength(250)]
+        [Unicode(false)]
         public string PhoneNo { get; set; }
+        [Column(TypeName = "datetime")]
         public DateTime DateOfBirth { get; set; }
+        [Required]
+        [StringLength(50)]
+        [Unicode(false)]
         public string Password { get; set; }
-        public int CatgoryId { get; set; }
+        public int CategoryId { get; set; }
 
-        public virtual ContactCategory Catgory { get; set; }
+        [ForeignKey("CategoryId")]
+        [InverseProperty("Contacts")]
+        public virtual ContactCategory Category { get; set; }
     }
 }
